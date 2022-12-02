@@ -1,6 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Notification;
+use App\Notifications\NewMessage;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -16,7 +19,14 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+Auth::routes(['verify' => true]);
 
-Auth::routes();
 
+
+Route::get('/test-mail', function (){
+    Notification::route('mail', 'sohang.shinedezign@gmail.com')->notify(new NewMessage());
+    return 'Sent';
+});
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Auth::routes();
+Route::get('/qrcode', [App\Http\Controllers\QrCodeController::class, 'index']);
